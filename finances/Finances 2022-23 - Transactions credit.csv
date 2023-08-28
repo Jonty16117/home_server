@@ -1,0 +1,36 @@
+Date,Transaction amount,Transaction effect,Transaction category,Additional info,Delete,Currency
+08/31/2021,25100,credit,salary income,,no,INR
+08/31/2021,6417,credit,friends,,no,INR
+08/31/2021,1500,credit,father,,no,INR
+08/31/2021,7655,credit,bank: HDFC,log,no,INR
+09/30/2021,25100,credit,salary income,,no,INR
+09/30/2021,12887,credit,friends,,no,INR
+09/30/2021,20000,credit,father,,no,INR
+09/30/2021,12,credit,coupons,,no,INR
+09/30/2021,2691,credit,bank: HDFC,log,no,INR
+10/31/2021,30000,credit,salary income,,no,INR
+10/31/2021,20026,credit,friends,18368 from sak and rest from friends,no,INR
+10/31/2021,75,credit,coupons,,no,INR
+10/31/2021,23571,credit,bank: HDFC,log,no,INR
+11/30/2021,30000,credit,salary income,,no,INR
+11/30/2021,1396,credit,friends,719 from sak and rest from friends,no,INR
+11/30/2021,6,credit,coupons,,no,INR
+11/30/2021,17785,credit,bank: HDFC,log,no,INR
+12/31/2021,35000,credit,salary income,,no,INR
+12/31/2021,64200,credit,stocks,,no,INR
+12/31/2021,19,credit,coupons,,no,INR
+01/31/2022,38000,credit,salary income,,no,INR
+01/31/2022,4003,credit,freelancing,,no,INR
+01/31/2022,2,credit,coupons,,no,INR
+01/31/2022,2080,credit,stocks,,no,INR
+02/28/2022,38000,credit,salary income,,no,INR
+02/28/2022,5893,credit,freelancing,,no,INR
+02/28/2022,10000,credit,stocks,,no,INR
+03/31/2022,10000,credit,bank: HDFC,,no,INR
+04/30/2022,327870,credit,bank: HDFC,,no,INR
+04/30/2022,83471,credit,mutual funds,,no,INR
+04/30/2022,7713,credit,groww wallet,,no,INR
+04/30/2022,5000,credit,crypto,bought dogecoins,no,INR
+04/30/2022,1500000,loan,education loan,loan: 15L disbursed on 17th march with 10.5% simple rate of interest yearly,no,INR
+04/30/2022,1500000,credit,bank: HDFC,loan: 15L disbursed on 17th march with 10.5% simple rate of interest yearly,no,INR
+05/31/2022,10541,credit,german blocked account,,no,EUR
