@@ -1,55 +1,55 @@
-version: '3.8'
+version: '3'
 
 services:
-  firefly_iii:
-    image: fireflyiii/core:latest
-    container_name: firefly_iii_core
-    restart: always
-    volumes:
-      - ./firefly_iii_upload:/var/www/html/storage/upload
-    env_file: .env
-    ports:
-      - '8080:8080'
-    depends_on:
-      - firefly_iii_db
-  firefly_iii_db:
-    image: mariadb
-    container_name: firefly_iii_db
-    restart: always
-    env_file: .db.env
-    volumes:
-      - ./firefly_iii_db:/var/lib/mysql
-
-  firefly_iii_cron:
-    #
-    # To make this work, set STATIC_CRON_TOKEN in your .env file or as an environment variable and replace REPLACEME below
-    # The STATIC_CRON_TOKEN must be *exactly* 32 characters long
-    #
-    image: alpine
-    container_name: firefly_iii_cron
-    restart: always
-    command: sh -c "echo \"0 3 * * * wget -qO- http://app:8080/api/v1/cron/REPLACEME\" | crontab - && crond -f -L /dev/stdout"
 
   cloudflaretunnel:
-    container_name: cloudflaretunnel-demo-1
+    container_name: cloudflaretunnel
     image: cloudflare/cloudflared:2023.2.1
     restart: unless-stopped
     environment:
-      - TUNNEL_TOKEN=eyJhIjoiMDZjMDM5MWI0NjYxOWRlMGJkZDEyYjlmYjUxMjc0YTUiLCJ0IjoiNzgwYzJhNTMtZjg1OC00MThkLWIzYmEtMmRlNDIwMGJhYzNlIiwicyI6Ik1UTXlaalEzT1RVdFl6ZzJPQzAwWm1FekxUazFZakV0TkRnek5qUTFORE0zTTJRNCJ9
+      - TUNNEL_TOKEN=eyJhIjoiMDZjMDM5MWI0NjYxOWRlMGJkZDEyYjlmYjUxMjc0YTUiLCJ0IjoiODcxYzlkZmItY2U4Yy00ODExLWFmODYtMGM3NTY4ZDg1NmJhIiwicyI6Ik56TTBaRE5rWkdJdE1HWmtNeTAwTkRJNExXRmhOVFV0T0dKa09UZzROMll6TlRrMSJ9
     command: tunnel --no-autoupdate run
-  
-  portainer:
-    image: portainer/portainer:latest
-    container_name: portainer
-    restart: always
-    ports:
-      - '9000:9000'
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-  
-  nextcloud-nginx:
+
+  finances-nginx:
     image: nginx:latest
-    container_name: nextcloud-nginx
+    container_name: finances-nginx
     restart: always
     volumes:
-      - ./nginx-config:/etc/nginx/conf.d   # Mount your custom Nginx configuration
+      - ./finances-nginx-config:/etc/nginx/conf.d   # Mount your custom Nginx configuration
+  
+  finances-app:
+    image: fireflyiii/core:latest
+    hostname: finances-app
+    container_name: finances-app
+    restart: always
+    env_file: .env
+    depends_on:
+      - finances-db
+
+  finances-db:
+    image: mariadb
+    hostname: finances-db
+    container_name: finances-db
+    env_file: .db.env
+    volumes:
+      - ./mysql:/var/lib/mysql
+
+  finances-importer:
+    image: fireflyiii/data-importer:latest
+    hostname: finances-importer
+    restart: always
+    container_name: finances-importer
+    env_file: .importer.env
+
+  #
+  # To make this work, set STATIC_CRON_TOKEN in your .env file or as an environment variable and replace REPLACEME below
+  # The STATIC_CRON_TOKEN must be *exactly* 32 characters long
+  #
+  finances-cron:
+    image: alpine
+    container_name: finances-cron
+    command: sh -c "echo \"0 3 * * * wget -qO- http://finances-app:8080/api/v1/cron/REPLACEME\" | crontab - && crond -f -L /dev/stdout"
+
+
+
+
