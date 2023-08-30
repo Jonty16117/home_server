@@ -3,8 +3,7 @@ version: '3'
 services:
 
   cloudflaretunnel:
-    container_name: cloudflaretunnel
-    image: cloudflare/cloudflared:2023.2.1
+    image: cloudflare/cloudflared
     restart: unless-stopped
     environment:
       - TUNNEL_TOKEN=eyJhIjoiMDZjMDM5MWI0NjYxOWRlMGJkZDEyYjlmYjUxMjc0YTUiLCJ0IjoiODcxYzlkZmItY2U4Yy00ODExLWFmODYtMGM3NTY4ZDg1NmJhIiwicyI6Ik56TTBaRE5rWkdJdE1HWmtNeTAwTkRJNExXRmhOVFV0T0dKa09UZzROMll6TlRrMSJ9
@@ -14,9 +13,12 @@ services:
     image: nginx:latest
     container_name: finances-nginx
     restart: always
+    ports:
+      - 80:80
     volumes:
       - ./finances-nginx-config:/etc/nginx/conf.d   # Mount your custom Nginx configuration
-  
+      - ./logs:/var/log/nginx
+
   finances-app:
     image: fireflyiii/core:latest
     hostname: finances-app

@@ -3,7 +3,6 @@ version: '3'
 services:
 
   cloudflaretunnel:
-    container_name: cloudflaretunnel
     image: cloudflare/cloudflared:2023.2.1
     restart: unless-stopped
     environment:
@@ -13,7 +12,6 @@ services:
   nextcloud-nginx:
     image: nginx:latest
     container_name: nextcloud-nginx
-    restart: always
     volumes:
       - ./nextcloud-nginx-config:/etc/nginx/conf.d   # Mount your custom Nginx configuration
 
