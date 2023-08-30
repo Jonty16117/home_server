@@ -6,7 +6,7 @@ services:
     image: cloudflare/cloudflared
     restart: unless-stopped
     environment:
-      - TUNNEL_TOKEN=eyJhIjoiMDZjMDM5MWI0NjYxOWRlMGJkZDEyYjlmYjUxMjc0YTUiLCJ0IjoiODcxYzlkZmItY2U4Yy00ODExLWFmODYtMGM3NTY4ZDg1NmJhIiwicyI6Ik56TTBaRE5rWkdJdE1HWmtNeTAwTkRJNExXRmhOVFV0T0dKa09UZzROMll6TlRrMSJ9
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
     command: tunnel --no-autoupdate run
 
   finances-nginx:

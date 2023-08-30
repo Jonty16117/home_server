@@ -2,3 +2,5 @@ app/
 daten/
 mysql/
 /creds
+*.env
+!example.*

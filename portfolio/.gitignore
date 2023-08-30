@@ -1,3 +1,5 @@
 app/
 daten/
 mysql/
+*.env
+!example.*

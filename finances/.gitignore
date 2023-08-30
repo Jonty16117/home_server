@@ -3,3 +3,5 @@ daten/
 mysql/
 /creds
 logs/
+*.env
+!example.*

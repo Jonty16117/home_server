@@ -5,7 +5,7 @@ services:
   cloudflaretunnel:
     image: cloudflare/cloudflared
     environment:
-      - TUNNEL_TOKEN=eyJhIjoiMDZjMDM5MWI0NjYxOWRlMGJkZDEyYjlmYjUxMjc0YTUiLCJ0IjoiYWY1YzNjMjMtODMyZC00ZjhiLWFmNWUtNjZiZGUzNzU4NTQ2IiwicyI6IlpHTTROak00TXprdE5XRmlZaTAwWWpaaUxXSmhPR0V0TWprek5qazNabUppWlRCbSJ9
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
     command: tunnel --no-autoupdate run
   
   wordpress:
