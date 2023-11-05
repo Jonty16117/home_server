@@ -1,0 +1,33 @@
+
+- trans-investments:
+=regexmatch(B2, ".*NEXTBILLION|.*smallcase|.*SMALLCASE|.*ACH C-|.*ACH D-|\sRD\s|RD BOOKED|RD CLOSURE|MINDSPACE|ASIAN PAINTS|BONUS|DIV|GROWW")
+
+- trans-withdrawals:
+=regexmatch(B2, "ATW")
+
+- trans-transfer-equitas:
+=regexmatch(B2, "1148")
+
+- trans-transfer-sbm:
+=regexmatch(B2, "9616|STCB0000065")
+
+- trans-bank-interest:
+=regexmatch(B2, "CREDIT INTEREST CAPITALISED|ACCOUNT VALIDATION")
+
+- trans-bank-charges:
+=regexmatch(B2, "DEBIT CARD ANNUAL FEE")
+
+- trans-transfer-paypal:
+=regexmatch(B2, "PAYPAL")
+
+- trans-freelancing:
+=regexmatch(B2, "FREELANCER")
+
+- trans-busibud-salary:
+=regexmatch(B2, "SAL TRANSITORY ACCOUNT")
+
+- trans-sak:
+=regexmatch(B2, "SAK")
+
+- trans-rent:
+=regexmatch(B2, "RENT")

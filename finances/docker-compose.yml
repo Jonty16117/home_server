@@ -13,8 +13,8 @@ services:
     image: nginx:latest
     container_name: finances-nginx
     restart: always
-    ports:
-      - 80:80
+    # ports:
+    #   - 80:80
     volumes:
       - ./finances-nginx-config:/etc/nginx/conf.d   # Mount your custom Nginx configuration
       - ./logs:/var/log/nginx
@@ -27,6 +27,8 @@ services:
     env_file: .env
     depends_on:
       - finances-db
+    ports:
+      - 8080:8080
 
   finances-db:
     image: mariadb
@@ -42,6 +44,8 @@ services:
     restart: always
     container_name: finances-importer
     env_file: .importer.env
+    ports:
+      - 81:8080
 
   #
   # To make this work, set STATIC_CRON_TOKEN in your .env file or as an environment variable and replace REPLACEME below
