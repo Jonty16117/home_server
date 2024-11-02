@@ -1,0 +1,50 @@
+services:
+
+  cloudflaretunnel:
+    image: cloudflare/cloudflared
+    environment:
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+    command: tunnel --no-autoupdate run
+    networks:
+      - stack
+
+  postgresk:
+    image: docker.io/postgres
+    volumes:
+      - ./data/postgresk:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - stack
+
+  keycloak:
+    image: keycloak/keycloak:26.0
+    ports:
+      - "8080:8080"
+    expose: 
+      - "8080"
+    # command: start-dev
+    command: start --hostname https://keycloak.kantiwal.xyz --proxy-headers forwarded --spi-login-protocol-openid-connect-suppress-logout-confirmation-screen=true
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgresk:5432/keycloak
+      KC_DB_PASSWORD: ${KC_DB_PASSWORD}
+      KC_DB_USERNAME: ${KC_DB_USERNAME}
+      KC_DB_SCHEMA: public
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      KC_PROXY: edge
+      KC_HTTP_ENABLED: true
+      # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
+      #JDBC_PARAMS: "ssl=true"
+    networks:
+      - stack
+    depends_on:
+      - postgresk
+
+
+## the network will be renamed to keycload_stack by the docker itself
+networks:
+  stack:
