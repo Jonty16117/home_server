@@ -1,5 +1,5 @@
 app/
-daten/
+data/
 mysql/
 /creds
 *.env

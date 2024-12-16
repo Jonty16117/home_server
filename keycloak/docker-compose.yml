@@ -7,6 +7,7 @@ services:
     command: tunnel --no-autoupdate run
     networks:
       - stack
+    restart: always
 
   postgresk:
     image: docker.io/postgres
@@ -18,11 +19,12 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     networks:
       - stack
+    restart: always
 
   keycloak:
     image: keycloak/keycloak:26.0
-    ports:
-      - "8080:8080"
+    # ports:
+    #   - "8080:8080"
     expose: 
       - "8080"
     # command: start-dev
@@ -43,8 +45,10 @@ services:
       - stack
     depends_on:
       - postgresk
+    restart: always
 
 
 ## the network will be renamed to keycload_stack by the docker itself
 networks:
   stack:
+
