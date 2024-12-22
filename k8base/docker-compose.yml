@@ -7,7 +7,7 @@ services:
     command: tunnel --no-autoupdate run
     networks:
       - keycloak_stack
-    restart: always
+    restart: unless-stopped
 
   wiki:
     image: requarks/wiki:2.5
@@ -41,7 +41,7 @@ services:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASS}
-    restart: always
+    restart: unless-stopped
     networks:
       - keycloak_stack
   
@@ -54,7 +54,7 @@ services:
       - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
     # ports:
     #   - "5050:80"
-    restart: always
+    restart: unless-stopped
     networks:
       - keycloak_stack
 

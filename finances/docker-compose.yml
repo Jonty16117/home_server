@@ -12,7 +12,7 @@ services:
   finances-nginx:
     image: nginx:latest
     container_name: finances-nginx
-    restart: always
+    restart: unless-stopped
     # ports:
     #   - 80:80
     volumes:
@@ -23,7 +23,7 @@ services:
     image: fireflyiii/core:latest
     hostname: finances-app
     container_name: finances-app
-    restart: always
+    restart: unless-stopped
     env_file: .env
     depends_on:
       - finances-db
@@ -41,7 +41,7 @@ services:
   finances-importer:
     image: fireflyiii/data-importer:latest
     hostname: finances-importer
-    restart: always
+    restart: unless-stopped
     container_name: finances-importer
     env_file: .importer.env
     ports:
