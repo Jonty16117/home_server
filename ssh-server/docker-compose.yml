@@ -1,0 +1,10 @@
+services:
+  cloudflaretunnel:
+    image: cloudflare/cloudflared
+    env_file: ./.env
+    environment:
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+    command: tunnel --no-autoupdate run
+    restart: unless-stopped
+    network_mode: host
+

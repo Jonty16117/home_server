@@ -20,7 +20,7 @@ services:
   mongodb:
     image: docker.io/bitnami/mongodb:${MONGODB_VERSION:-5.0}
     container_name: mongodb
-    restart: always
+    restart: unless-stopped
     volumes:
       - ./daten:/bitnami/mongodb
     environment:
