@@ -28,7 +28,7 @@ services:
     expose: 
       - "8080"
     # command: start-dev
-    command: start --hostname https://keycloak.kantiwal.xyz --proxy-headers forwarded --spi-login-protocol-openid-connect-suppress-logout-confirmation-screen=true
+    command: start --hostname https://keycloak.kantiwal.xyz --proxy-headers xforwarded --spi-login-protocol-openid-connect-suppress-logout-confirmation-screen=true --tls-hostname-verifier ANY
     environment:
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://postgresk:5432/keycloak

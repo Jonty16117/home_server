@@ -4,3 +4,4 @@ mysql/
 /creds
 *.env
 !example.*
+config/nextcloud.app.config.php

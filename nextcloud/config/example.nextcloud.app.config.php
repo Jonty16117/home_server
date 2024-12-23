@@ -26,9 +26,9 @@ $CONFIG = array (
     'port' => 6379,
   ),
   'upgrade.disable-web' => true,
-  'instanceid' => 'oc58yn0cd0r6',
-  'passwordsalt' => 'IMzNPUpwQZAWZnzFUzIAf7AKL0F6zU',
-  'secret' => '9vPk39aaAQmLHXNPOcE2z+WXGor8JB24/PJRljiMQLYiN7zr',
+  'instanceid' => 'asdfadfadf',
+  'passwordsalt' => 'asdfasdfasdf',
+  'secret' => 'asdfadsfasdf+asdf/asdfadsfasdf',
   'trusted_domains' => 
   array (
     0 => 'nextcloud.kantiwal.xyz',
@@ -36,7 +36,7 @@ $CONFIG = array (
   'datadirectory' => '/var/www/html/data',
   'dbtype' => 'mysql',
   'version' => '28.0.3.2',
-  'overwrite.cli.url' => 'https://nextcloud.kantiwal.xyz',
+  'overwrite.cli.url' => 'https://nextcloud.example.com',
   'overwriteprotocol' => 'https',
   'dbname' => 'nextcloud',
   'dbhost' => 'nextcloud-db:3306',
