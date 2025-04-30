@@ -1,0 +1,73 @@
+services:
+  # cloudflaretunnel:
+  #   image: cloudflare/cloudflared
+  #   env_file: ./.env
+  #   environment:
+  #     - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+  #   command: tunnel --no-autoupdate run
+  #   networks:
+  #     - keycloak_stack
+  #   restart: unless-stopped
+
+  # gitlab-nginx:
+  #   image: nginx:latest
+  #   container_name: gitlab-nginx
+  #   volumes:
+  #     - ./gitlab-nginx-config:/etc/nginx/conf.d
+  #   restart: unless-stopped
+
+  gitlab:
+    image: gitlab/gitlab-ce
+    hostname: 'gitlab.localhost'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://gitlab.localhost:8929'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2424
+    ports:
+      - '8929:8929'
+      - '443:443'
+      - '2424:22'
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 6000M
+    volumes:
+      - ./data/gitlab/config:/etc/gitlab
+      - ./data/gitlab/logs:/var/log/gitlab
+      - ./data/gitlab/data:/var/opt/gitlab
+    shm_size: '256m'
+
+  gitlab-runner:
+    image: gitlab/gitlab-runner
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 2500M
+    volumes:
+      - ./data/gitlab-runner/config:/etc/gitlab-runner
+      - ./ssh:/root/.ssh
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - gitlab
+
+  # bs-pipeline-dev-env:
+  #   build:
+  #     context: /home/jasforum/Developer/study/master-thesis-ws23/src/bs-pipeline
+  #   # deploy:
+  #   #   resources:
+  #   #     limits:
+  #   #       memory: 2500M
+  #   environment:
+  #     - GIT_BRANCH=REL1_39-4.4.x
+  #     - GIT_REPO=git@gitlab.localhost:master-thesis/mediagitlab.git
+  #     - EDITION=pro
+  #     - BLUESPICE_VERSION=4.4.0
+  #   volumes:
+  #     - /home/jasforum/Developer/study/master-thesis-ws23/src/bs-pipeline/src:/app/src
+  #     - /home/jasforum/Developer/study/master-thesis-ws23/src/bs-pipeline/bin:/app/bin
+  #     - /home/jasforum/Developer/study/master-thesis-ws23/src/bs-pipeline/composer.json:/app/composer.json
+  #     - /home/jasforum/.ssh:/root/.ssh
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   command: tail -f /dev/null
+  #   # command: /app/bin/bspipeline 010.buildCodebase --config /app/bin/build-config.json
+

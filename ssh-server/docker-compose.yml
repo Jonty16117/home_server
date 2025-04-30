@@ -7,4 +7,5 @@ services:
     command: tunnel --no-autoupdate run
     restart: unless-stopped
     network_mode: host
+    mem_limit: "25M"
 

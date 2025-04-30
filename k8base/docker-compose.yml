@@ -7,6 +7,7 @@ services:
     command: tunnel --no-autoupdate run
     networks:
       - keycloak_stack
+    mem_limit: "15M"
     restart: unless-stopped
 
   wiki-nginx:
@@ -16,6 +17,7 @@ services:
       - ./wiki-nginx-config:/etc/nginx/conf.d
     networks:
       - keycloak_stack
+    mem_limit: "15M"
     restart: unless-stopped
 
   wiki:
@@ -34,6 +36,7 @@ services:
     restart: unless-stopped
     networks:
       - keycloak_stack
+    mem_limit: "100M"
 
   postgres:
     image: postgres
@@ -53,6 +56,7 @@ services:
     restart: unless-stopped
     networks:
       - keycloak_stack
+    mem_limit: "15M"
   
   # pgadmin:
   #   image: dpage/pgadmin4
