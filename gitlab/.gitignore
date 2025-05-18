@@ -1,3 +1,5 @@
 data
 ssh
 creds
+data.bak
+.env

@@ -13,8 +13,8 @@ def main():
 
     # Register adapters
     manager.register_adapter(gdrive)
-    manager.register_adapter(mega)
-    manager.register_adapter(pcloud)
+    # manager.register_adapter(mega)
+    # manager.register_adapter(pcloud)
 
     # Authenticate all cloud accounts
     manager.authenticate_all()
