@@ -13,19 +13,6 @@ services:
           memory: 100M
     restart: unless-stopped
 
-  gitlab-nginx:
-    image: nginx:latest
-    container_name: gitlab-nginx
-    volumes:
-      - ./gitlab-nginx-config:/etc/nginx/conf.d
-    deploy:
-      resources:
-        limits:
-          memory: 100M
-        reservations:
-          memory: 100M
-    restart: unless-stopped
-
   gitlab:
     image: gitlab/gitlab-ce
     hostname: 'gitlab.kantiwal.xyz'
@@ -37,7 +24,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 5000M
+          memory: 4000M
         reservations:
           memory: 2500M
     shm_size: '256m'

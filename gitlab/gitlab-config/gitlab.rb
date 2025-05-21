@@ -1,4 +1,4 @@
-external_url 'https://gitlab.example.com'
+external_url 'http://gitlab.kantiwal.xyz'
 
 # Disable unnecessary services
 nginx['enable'] = true
