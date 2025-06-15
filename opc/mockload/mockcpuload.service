@@ -1,0 +1,14 @@
+[Unit]
+Description=Mock 70% CPU and Memory Usage
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/mockload.sh
+Restart=always
+RestartSec=5
+StandardOutput=null
+StandardError=null
+
+[Install]
+WantedBy=multi-user.target
