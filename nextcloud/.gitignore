@@ -5,3 +5,4 @@ mysql/
 *.env
 !example.*
 nextcloud.app.config.php
+nextcloud-config.bak/
