@@ -4,9 +4,16 @@ services:
     container_name: vaultwarden
     restart: unless-stopped
     environment:
-      # DOMAIN: "https://vw.domain.tld"
-      ADMIN_TOKEN: ${ADMIN_TOKEN}
+      DOMAIN: "http://vaultwarden.home"
+      # ADMIN_TOKEN: ${ADMIN_TOKEN}
+      # DISABLE_ADMIN_TOKEN: false
     volumes:
       - ./data/:/data/
     ports:
       - 5200:80
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 128M

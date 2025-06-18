@@ -1,0 +1,5 @@
+/creds
+/data
+.env
+config/010-Corefile
+config/020-nginx.conf

@@ -6,5 +6,11 @@
 ## Before starting the nextcloud container, run this in ./data
 - sudo rm -rf ./nextcloud*
 
+## Set permissions for nextcloud-config folder
+- sudo chown -R www-data:www-data nextcloud-config
+
 ## Setup db
 - sudo rm -rf ./mysql && sudo mkdir -p ./mysql && sudo chown -R 65532:65532 ./mysql && sudo chmod -R 755 ./mysql
+
+## Reset rate limit for IP
+- ./occ security:bruteforce:reset 213.168.135.455

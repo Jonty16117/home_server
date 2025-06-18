@@ -1,0 +1,11 @@
+. {
+    hosts {
+        10.0.0.2 nas.home
+        10.0.0.3 git.box
+        10.0.0.4 monitor.box
+        fallthrough
+    }
+    forward . 1.1.1.1 8.8.8.8
+    log
+    errors
+}

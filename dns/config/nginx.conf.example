@@ -1,0 +1,33 @@
+events {}
+
+http {
+    server {
+        listen 80;
+        server_name vaultwarden.local;
+        location / {
+            proxy_pass http://10.0.0.1:3000;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+        }
+    }
+
+    server {
+        listen 80;
+        server_name nextcloud.local;
+        location / {
+            proxy_pass http://10.0.0.1:3100;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+        }
+    }
+
+    server {
+        listen 80;
+        server_name testserver.local;
+        location / {
+            proxy_pass http://10.0.0.1:5000;
+            proxy_set_header Host $host;3200
+            proxy_set_header X-Real-IP $remote_addr;
+        }
+    }
+}
