@@ -3,18 +3,18 @@ services:
     image: coredns/coredns:latest
     container_name: coredns
     restart: unless-stopped
-    ports:
-      - "10.8.0.5:53:53/udp"
-      - "10.8.0.5:53:53/tcp"
-    deploy:
-      resources:
-        limits:
-          memory: 128M
-        reservations:
-          memory: 128M
+    network_mode: host
     volumes:
       - ./config/010-Corefile:/Corefile:ro
     command: -conf /Corefile
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 128M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
 
   nginx-proxy:
     image: nginx:stable-alpine
@@ -22,14 +22,12 @@ services:
     restart: unless-stopped
     depends_on:
       - coredns
-    ports:
-      - "10.8.0.5:80:80"
-      - "10.8.0.5:443:443"
+    network_mode: host
+    volumes:
+      - ./config/020-nginx.conf:/etc/nginx/nginx.conf:ro
     deploy:
       resources:
         limits:
           memory: 128M
         reservations:
           memory: 128M
-    volumes:
-      - ./config/020-nginx.conf:/etc/nginx/nginx.conf:ro

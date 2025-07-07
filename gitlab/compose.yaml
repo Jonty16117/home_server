@@ -1,21 +1,21 @@
 services:
-  cloudflaretunnel-gitlab:
-    image: cloudflare/cloudflared
-    env_file: ./.env
-    environment:
-      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN_GITLAB}
-    command: tunnel --no-autoupdate run
-    deploy:
-      resources:
-        limits:
-          memory: 100M
-        reservations:
-          memory: 100M
-    restart: unless-stopped
+  # cloudflaretunnel-gitlab:
+  #   image: cloudflare/cloudflared
+  #   env_file: ./.env
+  #   environment:
+  #     - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN_GITLAB}
+  #   command: tunnel --no-autoupdate run
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         memory: 100M
+  #       reservations:
+  #         memory: 100M
+  #   restart: unless-stopped
 
   gitlab:
-    image: gitlab/gitlab-ce
-    hostname: 'gitlab.kantiwal.xyz'
+    image: gitlab/gitlab-ce:17.11.5-ce.0
+    hostname: 'gitlab.home'
     volumes:
       # - ./data/gitlab/config:/etc/gitlab
       - ./data/gitlab/logs:/var/log/gitlab
@@ -27,26 +27,27 @@ services:
           memory: 4000M
         reservations:
           memory: 2500M
+    ports:
+      - 5400:80
     shm_size: '256m'
 
-  # gitlab-runner-node:
-  #   image: gitlab/gitlab-runner
-  #   volumes:
-  #     - ./data/gitlab-runner-node/config.toml:/etc/gitlab-runner/config.toml
-  #     - ./ssh:/root/.ssh
-  #     - /var/run/docker.sock:/var/run/docker.sock
+  gitlab-runner-node:
+    image: gitlab/gitlab-runner
+    volumes:
+      - ./data/gitlab-runner-node/config.toml:/etc/gitlab-runner/config.toml
+      - ./ssh:/root/.ssh
+      - /var/run/docker.sock:/var/run/docker.sock
 
-  # gitlab-runner-php:
-  #   image: gitlab/gitlab-runner
-  #   volumes:
-  #     - ./data/gitlab-runner-php/config.toml:/etc/gitlab-runner/config.toml
-  #     - ./ssh:/root/.ssh
-  #     - /var/run/docker.sock:/var/run/docker.sock
+  gitlab-runner-php:
+    image: gitlab/gitlab-runner
+    volumes:
+      - ./data/gitlab-runner-php/config.toml:/etc/gitlab-runner/config.toml
+      - ./ssh:/root/.ssh
+      - /var/run/docker.sock:/var/run/docker.sock
 
-
-  # gitlab-runner-alpine:
-  #   image: gitlab/gitlab-runner
-  #   volumes:
-  #     - ./data/gitlab-runner-alpine/config.toml:/etc/gitlab-runner/config.toml
-  #     - ./ssh:/root/.ssh
-  #     - /var/run/docker.sock:/var/run/docker.sock
+  gitlab-runner-alpine:
+    image: gitlab/gitlab-runner
+    volumes:
+      - ./data/gitlab-runner-alpine/config.toml:/etc/gitlab-runner/config.toml
+      - ./ssh:/root/.ssh
+      - /var/run/docker.sock:/var/run/docker.sock

@@ -13,4 +13,7 @@
 - sudo rm -rf ./mysql && sudo mkdir -p ./mysql && sudo chown -R 65532:65532 ./mysql && sudo chmod -R 755 ./mysql
 
 ## Reset rate limit for IP
-- ./occ security:bruteforce:reset 213.168.135.455
+- ./occ security:bruteforce:reset 91.57.70.169 
+
+## reset admin password
+- ./occ user:resetpassword admin
