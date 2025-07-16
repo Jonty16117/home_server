@@ -5,8 +5,8 @@ services:
     restart: unless-stopped
     environment:
       DOMAIN: "http://vaultwarden.home"
-      # ADMIN_TOKEN: ${ADMIN_TOKEN}
-      # DISABLE_ADMIN_TOKEN: false
+      ADMIN_TOKEN: ${ADMIN_TOKEN}
+      DISABLE_ADMIN_TOKEN: false
     volumes:
       - ./data/:/data/
     ports:
