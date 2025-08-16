@@ -1,0 +1,24 @@
+---
+- name: Pull WG Dashboard Docker image
+  community.docker.docker_image:
+    name: donaldzou/wgdashboard
+    tag: latest
+    source: pull
+
+- name: Run WireGuard Dashboard container on host network
+  community.docker.docker_container:
+    name: wgdashboard
+    image: donaldzou/wgdashboard:latest
+    state: started
+    restart_policy: unless-stopped
+    network_mode: host
+    volumes:
+      - "/etc/wireguard:/etc/wireguard"
+      - "/opt/WGDashboard:/data"
+    capabilities:
+      - NET_ADMIN
+    env:
+      global_dns: "{{ wireguard_dns  }}"
+      public_ip: "{{ wireguard_endpoint  }}"
+      tz: "{{ wireguard_tz  }}"
+    recreate: true

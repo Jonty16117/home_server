@@ -1,0 +1,14 @@
+ansible_host: example.com
+ansible_user: root
+
+# ## wg server conf
+wireguard_backup_password: "somepassword"
+wireguard_dns: "10.0.0.1"
+wireguard_endpoint: example.com
+wireguard_tz: "Etc/UTC"
+
+coredns_bind_ip: "0.0.0.0"
+coredns_hosts:
+  "10.0.0.1": "pm01"
+  "10.0.0.2": "pm02"
+  "10.0.0.3": "ht-iphone"

@@ -1,0 +1,48 @@
+- name: Add Docker GPG key
+  ansible.builtin.apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    state: present
+
+- name: Add Docker repository to APT
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
+    state: present
+
+- name: Install Docker packages
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  loop:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+
+- name: Ensure Docker service is active and enabled
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Ensure Docker group exists
+  ansible.builtin.group:
+    name: docker
+    state: present
+
+- name: Add user 'debian' to Docker group
+  ansible.builtin.user:
+    name: debian
+    groups: docker
+    append: true
+
+- name: Download and install Docker Compose
+  ansible.builtin.get_url:
+    url: https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64
+    dest: /usr/local/bin/docker-compose
+    mode: 'u+x,g+x'
+
+- name: Set ownership and permissions for Docker Compose
+  ansible.builtin.file:
+    path: /usr/local/bin/docker-compose
+    owner: debian
+    group: debian

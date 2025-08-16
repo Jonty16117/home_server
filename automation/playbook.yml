@@ -1,0 +1,6 @@
+---
+- name: Automate infra
+  hosts: wg-server
+  become: false
+  roles:
+    - wg-server

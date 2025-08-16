@@ -1,0 +1,13 @@
+.:53 {
+    log
+    errors
+    bind {{ coredns_bind_ip }}
+    hosts {
+{% for ip, hostname in coredns_hosts.items() %}
+        {{ ip }} {{ hostname }}
+{% endfor %}
+        fallthrough
+    }
+    forward . 1.1.1.1 8.8.8.8
+    cache 30
+}

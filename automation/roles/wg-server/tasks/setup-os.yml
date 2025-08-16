@@ -1,0 +1,12 @@
+- name: Install required dependencies
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  loop:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - gnupg
+    - zip
+    - software-properties-common

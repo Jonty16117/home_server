@@ -1,0 +1,5 @@
+all:
+  children:
+    wg-server:
+      hosts:
+        cloud-vps-01:

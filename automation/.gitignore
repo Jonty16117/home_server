@@ -1,0 +1,3 @@
+creds
+.vault_pass.txt
+ansible-venv

@@ -1,0 +1,27 @@
+- name: Setup os
+  ansible.builtin.import_tasks: setup-os.yml
+  tags: setup-os
+
+- name: Install docker
+  ansible.builtin.import_tasks: install-docker.yml
+  tags: install-docker
+
+- name: Setup CoreDNS
+  ansible.builtin.import_tasks: setup-coredns.yml
+  tags: setup-coredns
+
+- name: Setup WireGuard
+  ansible.builtin.import_tasks: setup-wireguard.yml
+  tags: setup-wireguard
+
+- name: Backup WireGuard
+  ansible.builtin.import_tasks: backup-wireguard.yml
+  tags:
+    - backup-wireguard
+    - backup
+
+- name: Restore WireGuard
+  ansible.builtin.import_tasks: restore-wireguard.yml
+  tags:
+    - restore-wireguard
+    - restore
