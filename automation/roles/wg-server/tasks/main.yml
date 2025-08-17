@@ -25,3 +25,18 @@
   tags:
     - restore-wireguard
     - restore
+
+- name: Setup nginx reverse proxy
+  ansible.builtin.import_tasks: setup-nginx-rp.yml
+  tags:
+    - setup-nginx-rp
+    - setup-nginx
+    - nginx
+    - rp
+
+- name: Setup self signed certificate authority (CA)
+  ansible.builtin.import_tasks: setup-ca.yml
+  tags:
+    - setup-ca
+    - ca
+    - ssl

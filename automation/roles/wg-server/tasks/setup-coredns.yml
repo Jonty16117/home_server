@@ -17,6 +17,20 @@
     group: root
     mode: '0644'
 
+- name: Create CoreDNS zone files
+  template:
+    src: zonefile.j2
+    dest: "/etc/coredns/{{ item.key }}.db"
+    owner: root
+    group: root
+    mode: '0644'
+  loop: "{{ coredns_zones | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+  vars:
+    zone: "{{ item.key }}"
+    ip: "{{ item.value }}"
+
 - name: Pull CoreDNS Docker image
   community.docker.docker_image:
     name: coredns/coredns

@@ -1,0 +1,31 @@
+---
+- name: Pull nginx image
+  community.docker.docker_image:
+    name: jc21/nginx-proxy-manager:latest
+    source: pull
+
+- name: Run nginx reverse proxy container
+  community.docker.docker_container:
+    name: nginx-rp
+    image: jc21/nginx-proxy-manager:latest
+    restart_policy: always
+    dns_servers: "{{ wireguard_dns }}"
+    published_ports:
+      - "80:80"
+      - "81:81" # admin ui
+      - "443:443"
+    env:
+      INITIAL_ADMIN_EMAIL: "{{ nginx_rp_admin_email }}"
+      INITIAL_ADMIN_PASSWORD: "{{ nginx_rp_admin_password }}"
+    volumes:
+      - /opt/nginx-rp/data:/data
+      - /opt/nginx-rp/letsencrypt:/etc/letsencrypt
+    state: started
+    recreate: true
+
+# docker run --name nginx-rp \
+#   --dns=10.0.0.1 \
+#   -p 81:81 \
+#   -p 81:81 \
+#   -p 81:81 \
+#   nginx

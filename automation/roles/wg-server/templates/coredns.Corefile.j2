@@ -2,12 +2,12 @@
     log
     errors
     bind {{ coredns_bind_ip }}
-    hosts {
-{% for ip, hostname in coredns_hosts.items() %}
-        {{ ip }} {{ hostname }}
+
+    # Zone files for internal domains
+{% for zone_file, _ in coredns_zones.items() %}
+    file /etc/coredns/{{ zone_file }}.db {{ zone_file }}
 {% endfor %}
-        fallthrough
-    }
-    forward . 1.1.1.1 8.8.8.8
-    cache 30
+
+    forward . {{ forwarders | default('1.1.1.1 8.8.8.8') }}
+    cache {{ cache_ttl | default(30) }}
 }
