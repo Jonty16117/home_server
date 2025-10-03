@@ -1,0 +1,72 @@
+---
+- name: Clean before setting up
+  ansible.builtin.file:
+    path: /var/jk/docker/coredns
+    state: absent
+
+- name: Ensure required directories exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  loop:
+    - /var/jk/docker/coredns
+
+- name: Deploy CoreDNS Corefile from template
+  ansible.builtin.template:
+    src: coredns.Corefile.j2
+    dest: /var/jk/docker/coredns/Corefile
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Create CoreDNS zone files
+  ansible.builtin.template:
+    src: zonefile.j2
+    dest: "/var/jk/docker/coredns/{{ item.key }}.db"
+    owner: root
+    group: root
+    mode: '0644'
+  loop: "{{ coredns_zones | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+  vars:
+    zone: "{{ item.key }}"
+    ip: "{{ item.value }}"
+
+- name: Pull CoreDNS Docker image
+  community.docker.docker_image:
+    name: coredns/coredns
+    tag: latest
+    source: pull
+
+- name: Create shared network with subnet
+  community.docker.docker_network:
+    name: proxy_net
+    state: present
+    driver: bridge
+    ipam_driver: default
+    ipam_config:
+      - subnet: 172.20.0.0/16
+        gateway: 172.20.0.1
+
+- name: Run CoreDNS container with static IP
+  community.docker.docker_container:
+    name: coredns
+    image: coredns/coredns:latest
+    state: started
+    restart_policy: unless-stopped
+    published_ports:
+      - "54:53/udp"
+      - "54:53/tcp"
+    networks:
+      - name: proxy_net
+        ipv4_address: "{{ coredns_continainer_static_ip }}"
+    volumes:
+      - "/var/jk/docker/coredns:/etc/coredns"
+    command:
+      - "-conf"
+      - "/etc/coredns/Corefile"
+    recreate: true

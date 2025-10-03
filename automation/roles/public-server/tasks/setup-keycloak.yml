@@ -1,0 +1,49 @@
+---
+- name: Run Postgres container for Keycloak
+  community.docker.docker_container:
+    name: postgresk
+    image: docker.io/postgres
+    restart_policy: unless-stopped
+    networks:
+      - name: proxy_net
+    env:
+      POSTGRES_DB: "{{ POSTGRES_DB }}"
+      POSTGRES_USER: "{{ POSTGRES_USER }}"
+      POSTGRES_PASSWORD: "{{ POSTGRES_PASSWORD }}"
+    volumes:
+      - /var/jk/docker/keycloak/data/postgresk:/var/lib/postgresql/data
+    memory: 100m
+    state: started
+    recreate: true
+
+- name: Run Keycloak container
+  community.docker.docker_container:
+    name: keycloak
+    image: keycloak/keycloak:26.0
+    restart_policy: unless-stopped
+    networks:
+      - name: proxy_net
+    expose:
+      - "8080"
+    command: >
+      start --hostname https://keycloak.jcloud.v6.navy
+      --proxy-headers xforwarded
+      --spi-login-protocol-openid-connect-suppress-logout-confirmation-screen=true
+      --tls-hostname-verifier ANY
+    env:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgresk:5432/keycloak
+      KC_DB_PASSWORD: "{{ KC_DB_PASSWORD }}"
+      KC_DB_USERNAME: "{{ KC_DB_USERNAME }}"
+      KC_DB_SCHEMA: public
+      KEYCLOAK_ADMIN: "{{ KEYCLOAK_ADMIN }}"
+      KC_BOOTSTRAP_ADMIN_USERNAME: "{{ KEYCLOAK_ADMIN }}"
+      KEYCLOAK_ADMIN_PASSWORD: "{{ KEYCLOAK_ADMIN_PASSWORD }}"
+      KC_BOOTSTRAP_ADMIN_PASSWORD: "{{ KEYCLOAK_ADMIN_PASSWORD }}"
+      KC_PROXY: edge
+      KC_HTTP_ENABLED: "true"
+      JAVA_OPTS: "-Xms128m -Xmx320m -XX:MetaspaceSize=96m -XX:MaxMetaspaceSize=160m"
+
+    memory: 500m  
+    state: started
+    recreate: true

@@ -1,0 +1,25 @@
+---
+- name: Ensure Pi-hole container is running
+  community.docker.docker_container:
+    name: "pihole"
+    image: "{{ pihole_image }}"
+    state: started
+    restart_policy: unless-stopped
+    ports:
+      - "55:53/tcp"
+      - "55:53/udp"
+      - "5800:80/tcp"
+    env:
+      TZ: "Europe/Berlin"
+      FTLCONF_webserver_api_password: "{{ pihole_web_password }}"
+      FTLCONF_dns_listeningMode: "all"
+    networks:
+      - name: proxy_net
+    volumes:
+      - "/var/jk/docker/pihole/data:/etc/pihole"
+      # Uncomment if migrating from v5 and you need custom dnsmasq:
+      # - "./etc-dnsmasq.d:/etc/dnsmasq.d"
+    capabilities:
+      - NET_ADMIN
+      - SYS_TIME
+      - SYS_NICE

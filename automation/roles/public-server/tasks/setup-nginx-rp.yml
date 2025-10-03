@@ -1,0 +1,27 @@
+---
+- name: Pull nginx image
+  community.docker.docker_image:
+    name: jc21/nginx-proxy-manager:latest
+    source: pull
+
+- name: Run nginx reverse proxy container
+  community.docker.docker_container:
+    name: nginx-rp
+    image: jc21/nginx-proxy-manager:latest
+    restart_policy: always
+    dns_servers:
+      - "{{ coredns_continainer_static_ip }}" ## static ip of coredns docker container
+    networks:
+      - name: proxy_net
+    published_ports:
+      - "80:80"
+      - "5081:81" # admin ui
+      - "443:443"
+    env:
+      INITIAL_ADMIN_EMAIL: "{{ nginx_rp_admin_email }}"
+      INITIAL_ADMIN_PASSWORD: "{{ nginx_rp_admin_password }}"
+    volumes:
+      - /var/jk/docker/nginx/data:/data
+      - /var/jk/docker/nginx/letsencrypt:/etc/letsencrypt
+    state: started
+    recreate: true
