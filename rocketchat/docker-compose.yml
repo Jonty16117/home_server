@@ -1,21 +1,4 @@
-version: '3'
-
 services:
-
-  cloudflaretunnel:
-    image: cloudflare/cloudflared:2023.2.1
-    restart: unless-stopped
-    environment:
-      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
-    command: tunnel --no-autoupdate run
-
-  rocketchat-nginx:
-    image: nginx:latest
-    depends_on:
-      - rocketchat
-    container_name: rocketchat-nginx
-    volumes:
-      - ./rocketchat-nginx-config:/etc/nginx/conf.d
 
   mongodb:
     image: docker.io/bitnami/mongodb:${MONGODB_VERSION:-5.0}
@@ -59,6 +42,7 @@ services:
     expose:
       - ${PORT:-3000}
     ports:
-      - "${BIND_IP:-0.0.0.0}:${HOST_PORT:-3000}:${PORT:-3000}"
+      - "5700:${PORT:-3000}"
+      # - "${BIND_IP:-0.0.0.0}:${HOST_PORT:-3000}:${PORT:-3000}"
 
 

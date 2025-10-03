@@ -1,0 +1,12 @@
+services:
+  webdav:
+    image: ghcr.io/hacdias/webdav
+    container_name: webdav
+    restart: unless-stopped
+    ports:
+      - '5900:6060'
+    volumes:
+      - ./config.yml:/config.yml:ro
+      - ./data:/data:rw
+    command: "-c /config.yml"
+    user: "1000:1000"

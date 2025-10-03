@@ -1,14 +1,4 @@
 services:
-  cloudflaretunnel:
-    image: cloudflare/cloudflared
-    env_file: ./.env
-    environment:
-      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
-    command: tunnel --no-autoupdate run
-    networks:
-      - keycloak_stack
-    mem_limit: "50M"
-    restart: unless-stopped
 
   wiki:
     image: requarks/wiki:2.5
@@ -21,11 +11,11 @@ services:
       - DB_USER=${DB_USER}
       - DB_PASS=${DB_PASS}
       - DB_NAME=${DB_NAME}
-    # ports:
-    #   - "80:3000"
+    ports:
+      - "5100:3000"
     restart: unless-stopped
-    networks:
-      - keycloak_stack
+    # networks:
+    #   - keycloak_stack
     # mem_limit: "256M"
     deploy:
       resources:
@@ -50,8 +40,8 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASS}
     restart: unless-stopped
-    networks:
-      - keycloak_stack
+    # networks:
+    #   - keycloak_stack
     mem_limit: "100M"
   
   # pgadmin:
@@ -68,7 +58,7 @@ services:
   #     - keycloak_stack
 
 
-networks:
-  keycloak_stack:
-    external: true
+# networks:
+#   keycloak_stack:
+#     external: true
 

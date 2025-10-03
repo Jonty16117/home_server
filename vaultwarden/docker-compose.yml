@@ -4,7 +4,7 @@ services:
     container_name: vaultwarden
     restart: unless-stopped
     environment:
-      DOMAIN: "http://vaultwarden.home"
+      DOMAIN: ${DOMAIN}
       ADMIN_TOKEN: ${ADMIN_TOKEN}
       DISABLE_ADMIN_TOKEN: false
     volumes:

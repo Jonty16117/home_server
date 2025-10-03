@@ -1,36 +1,27 @@
 services:
-
-  cloudflaretunnel:
-    image: cloudflare/cloudflared
-    environment:
-      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
-    command: tunnel --no-autoupdate run
-    networks:
-      - stack
-    mem_limit: "100M"
-    restart: unless-stopped
-
   postgresk:
     image: docker.io/postgres
     volumes:
+      # - /var/jk/docker/keycloak/data/postgresk:/var/lib/postgresql/data
       - ./data/postgresk:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    networks:
-      - stack
+      TZ: Europe/Berlin
     mem_limit: "100M"
     restart: unless-stopped
 
   keycloak:
     image: keycloak/keycloak:26.0
-    # ports:
-    #   - "8080:8080"
+    container_name: keycloak
+    ports:
+      - "6000:8080"
     expose: 
       - "8080"
-    command: start --hostname https://keycloak.kantiwal.xyz --proxy-headers xforwarded --spi-login-protocol-openid-connect-suppress-logout-confirmation-screen=true --tls-hostname-verifier ANY
+    command: start --hostname https://keycloak.jcloud.v6.navy --proxy-headers xforwarded --spi-login-protocol-openid-connect-suppress-logout-confirmation-screen=true --tls-hostname-verifier ANY
     environment:
+      TZ: Europe/Berlin
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://postgresk:5432/keycloak
       KC_DB_PASSWORD: ${KC_DB_PASSWORD}
@@ -40,24 +31,25 @@ services:
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
       KC_PROXY: edge
       KC_HTTP_ENABLED: true
-      JAVA_OPTS: "-Xms128m -Xmx256m -XX:MetaspaceSize=64m -XX:MaxMetaspaceSize=128m"
-      # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
-      #JDBC_PARAMS: "ssl=true"
-    networks:
-      - stack
+      JAVA_OPTS: >
+        -Xms512m -Xmx768m
+        -XX:MetaspaceSize=128m
+        -XX:MaxMetaspaceSize=256m
+        -XX:+UseParallelGC
+        -XX:+OptimizeStringConcat
     # mem_limit: "300M"
     deploy:
       resources:
         limits:
-          memory: 500M
+          memory: 1G
         reservations:
-          memory: 500M
+          memory: 1G
     depends_on:
       - postgresk
     restart: unless-stopped
 
-
-## the network will be renamed to keycload_stack by the docker itself
-networks:
-  stack:
-
+# ## proxy_net network is created by ansible
+# networks:
+#   proxy_net:
+#     external: true
+# http://pm01.jk:6000
