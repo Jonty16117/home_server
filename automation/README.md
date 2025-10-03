@@ -56,3 +56,9 @@ ansible-galaxy init roles/role_name
 #### Setup wg-server
 - ping: ansible wg-server -m ping
 - run playbook: ansible-playbook playbook.yml
+
+## Ansible vault encrypt
+find inventory/host_vars -type f -exec ansible-vault encrypt --vault-password-file ~/creds {} \;
+
+## Ansible vault decrypt
+find inventory/host_vars -type f -exec ansible-vault decrypt --vault-password-file ~/.ansible_vault_pass.txt {} \;
