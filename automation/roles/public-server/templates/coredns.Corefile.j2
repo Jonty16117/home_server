@@ -1,0 +1,24 @@
+.:53 {
+    log
+    errors
+    bind 0.0.0.0
+    #bind {{ coredns_bind_ip }}
+
+    # Only listen on localhost and private LAN (adjust as needed)
+    #bind 127.0.0.1 {{ coredns_bind_ip }}
+
+    # Prevent being an open resolver
+    #acl {
+    #    allow net 127.0.0.0/16
+    #    allow net 10.0.0.0/16
+    #    block
+    #}
+
+    # Zone files for internal domains
+{% for zone_file, _ in coredns_zones.items() %}
+    file /etc/coredns/{{ zone_file }}.db {{ zone_file }}
+{% endfor %}
+
+    forward . {{ forwarders | default('1.1.1.1 8.8.8.8') }}
+    cache {{ cache_ttl | default(30) }}
+}
