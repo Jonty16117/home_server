@@ -1,5 +1,6 @@
 all:
   children:
-    wg-server:
+    public-server:
       hosts:
-        cloud-vps-01:
+        vm01:
+        # pm01:
