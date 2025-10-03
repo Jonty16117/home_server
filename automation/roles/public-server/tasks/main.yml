@@ -1,0 +1,40 @@
+- name: Setup os
+  ansible.builtin.import_tasks: setup-os.yml
+  tags: setup-os
+
+- name: Install docker
+  ansible.builtin.import_tasks: install-docker.yml
+  tags: install-docker
+
+- name: Setup CoreDNS
+  ansible.builtin.import_tasks: setup-coredns.yml
+  tags:
+    - setup-coredns
+    - coredns
+    - dns
+    - proxy
+
+- name: Setup nginx reverse proxy
+  ansible.builtin.import_tasks: setup-nginx-rp.yml
+  tags:
+    - setup-nginx-rp
+    - setup-nginx
+    - nginx
+    - rp
+    - proxy
+
+# - name: Setup keycloak
+#   ansible.builtin.import_tasks: setup-keycloak.yml
+#   tags:
+#     - setup-keycloak
+#     - keycloak
+#     - kc
+#     - netbird-stack
+
+- name: Setup pihole
+  ansible.builtin.import_tasks: setup-pihole.yml
+  tags:
+    - setup-pihole
+    - pihole
+    - ph
+    - netbird-stack
