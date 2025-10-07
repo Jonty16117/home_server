@@ -1,5 +1,3 @@
-version: '3'
-
 services:
 
   finances-app:
@@ -28,7 +26,7 @@ services:
     container_name: finances-importer
     env_file: .importer.env
     ports:
-      - 81:8080
+      - 5610:8080
 
   #
   # To make this work, set STATIC_CRON_TOKEN in your .env file or as an environment variable and replace REPLACEME below
@@ -37,4 +35,5 @@ services:
   finances-cron:
     image: alpine
     container_name: finances-cron
-    command: sh -c "echo \"0 3 * * * wget -qO- http://finances-app:8080/api/v1/cron/REPLACEME\" | crontab - && crond -f -L /dev/stdout"
+    env_file: .env
+    command: sh -c "echo \"0 3 * * * wget -qO- http://finances-app:8080/api/v1/cron/$STATIC_CRON_TOKEN\" | crontab - && crond -f -L /dev/stdout"

@@ -81,13 +81,13 @@ services:
       PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://gotenberg:3000
       PAPERLESS_TIKA_ENDPOINT: http://tika:9998
       ## enable only when required high performance
-      # PAPERLESS_TASK_WORKERS: 16
+      # PAPERLESS_TASK_WORKERS: 8
     deploy:
       resources:
         limits:
-          memory: 512M
+          memory: 1024M
         reservations:
-          memory: 512M
+          memory: 1024M
 
   gotenberg:
     image: docker.io/gotenberg/gotenberg:8.20
