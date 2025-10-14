@@ -53,10 +53,17 @@ This project demonstrates expertise in:
 3. Update the `docker-compose.yml` file with your Cloudflare tunnel token and other environment variables.
 4. Run `docker-compose up -d` to start the services.
 
+
+
 **License**
 ----------
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the Apache License. See the LICENSE file for details.
+
+**Usage**
+---------
+
+To boostrap a new service, run: `./template/create-service.sh <service-name>`
 
 **Acknowledgments**
 ------------------
