@@ -1,0 +1,29 @@
+services:
+  serivce1name:
+    image: imagename
+    restart: unless-stopped
+    volumes:
+      - ./data/redis:/data
+    ports:
+      - "9999:9999"
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 128M
+
+  serivce2name:
+    image: imagename
+    restart: unless-stopped
+    volumes:
+      - ./data/redis:/data
+    ports:
+      - "9999:9999"
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 128M
+
