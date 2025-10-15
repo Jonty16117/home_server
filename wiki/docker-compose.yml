@@ -1,0 +1,26 @@
+---
+services:
+  bookstack:
+    image: lscr.io/linuxserver/bookstack:latest
+    restart: unless-stopped
+    env_file:
+      - ./env
+    volumes:
+      - ./data/bookstack/config:/config
+      - /run/user/1000:/tmp
+    ports:
+      - 6100:80
+    depends_on:
+      - mariadb
+    mem_limit: "128M"
+
+  mariadb:
+    image: mariadb
+    restart: unless-stopped
+    env_file:
+      - ./env
+    expose:
+      - "3306"
+    volumes:
+      - ./data/mariadb:/config
+    mem_limit: "128M"

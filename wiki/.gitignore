@@ -1,0 +1,4 @@
+creds
+data/*
+!data/.gitkeep
+env
